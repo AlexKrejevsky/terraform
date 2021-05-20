@@ -38,7 +38,7 @@ resource "aws_security_group" "web" {
 resource "aws_launch_configuration" "web" {
   name_prefix     = "WebServer-Highly-Available-LC-"
   image_id        = data.aws_ami.latest_amazon_linux.id
-  instance_type   = "t3.micro"
+  instance_type   = "t2.micro"
   security_groups = [aws_security_group.web.id]
   user_data       = file("user_data.sh")
 
@@ -50,9 +50,9 @@ resource "aws_launch_configuration" "web" {
 resource "aws_autoscaling_group" "web" {
   name                 = "ASG-${aws_launch_configuration.web.name}"
   launch_configuration = aws_launch_configuration.web.name
-  min_size             = 3
-  max_size             = 3
-  min_elb_capacity     = 3
+  min_size             = 2
+  max_size             = 2
+  min_elb_capacity     = 2
   health_check_type    = "ELB"
   vpc_zone_identifier  = [aws_default_subnet.default_az1.id, aws_default_subnet.default_az2.id]
   load_balancers       = [aws_elb.web.name]
