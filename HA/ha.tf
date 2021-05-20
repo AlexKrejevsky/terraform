@@ -1,6 +1,5 @@
-
 provider "aws" {
-  region = "ca-central-1"
+  region = "us-west-1"
 }
 
 data "aws_availability_zones" "working" {}
